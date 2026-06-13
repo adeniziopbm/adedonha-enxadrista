@@ -3,40 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adedonha Enxadrista</title>
+<title>♟️ Adedonha Enxadrista FEM V2.1</title>
+<link rel="stylesheet" href="styles.css">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#222222">
-<style>
-body{font-family:Arial,sans-serif;background:#f4f4f4;padding:20px}
-.container{max-width:900px;margin:auto;background:#fff;padding:20px;border-radius:12px}
-.box{display:inline-block;background:#eee;padding:12px;margin:5px;border-radius:8px}
-input{width:95%;padding:8px}.btn{padding:10px;margin:5px}
-</style>
+<meta name="theme-color" content="#1b4332">
+<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 <div class="container">
-<h1>♟️ Adedonha Enxadrista</h1>
-<div class="box">Letra: <span id="letra">?</span></div>
-<div class="box">Tempo: <span id="tempo">02:00</span></div>
-<br><button class="btn" onclick="iniciar()">Iniciar</button>
-<table border="1" width="100%">
-<tr><td>Peça</td><td><input id="peca"></td></tr>
-<tr><td>Movimento</td><td><input id="mov"></td></tr>
-<tr><td>Estratégia</td><td><input id="est"></td></tr>
-<tr><td>Enxadrista</td><td><input id="enj"></td></tr>
-</table>
-<button class="btn" onclick="finalizar()">Finalizar</button>
-<div id="res"></div>
-<button id="installBtn" style="display:none">Instalar App</button>
+<header>
+<h1>♟️ ADEDONHA ENXADRISTA FEM V2.1</h1>
+<p>Jogo digital competitivo e pedagógico para aprendizagem dos conceitos básicos do xadrez</p>
+</header>
+
+<section class="card destaque">
+<h2>👤 Identificação do Participante</h2>
+<div class="form-grid">
+<div class="campo"><label>Nome</label><input type="text" id="nomeJogador" placeholder="Digite seu nome"></div>
+<div class="campo"><label>Turma</label><input type="text" id="turmaJogador" placeholder="Ex: 8º Ano"></div>
 </div>
+</section>
+
+<section class="card">
+<div class="info-jogo">
+<div class="info-box">Letra Sorteada<div class="letra-sorteada" id="letraSorteada">?</div></div>
+<div class="info-box">Tempo<div class="cronometro" id="cronometro">02:00</div></div>
+<div class="info-box">Pontuação<div class="letra-sorteada" id="pontuacaoAtual">0</div></div>
+</div>
+<div class="botoes">
+<button class="btn-iniciar" onclick="iniciarPartida()">▶ Iniciar Partida</button>
+<button class="btn-finalizar" onclick="finalizarPartida()">🏁 Finalizar</button>
+<button onclick="reiniciarPartida()">🔄 Nova Rodada</button>
+<button onclick="alternarModoEscuro()">🌙 Modo Escuro</button>
+<button id="installBtn" style="display:none">📲 Instalar App</button>
+</div>
+</section>
+
+<section class="card">
+<h2>✍️ Respostas</h2>
+<p class="orientacao">Preencha cada categoria com uma palavra do xadrez que comece com a letra sorteada.</p>
+<div class="form-grid">
+<div class="campo"><label>♔ Peça ou elemento do tabuleiro</label><input id="respostaPeca" autocomplete="off"></div>
+<div class="campo"><label>↔ Movimento ou regra</label><input id="respostaMovimento" autocomplete="off"></div>
+<div class="campo"><label>⚔ Tática</label><input id="respostaTatica" autocomplete="off"></div>
+<div class="campo"><label>🧠 Estratégia</label><input id="respostaEstrategia" autocomplete="off"></div>
+<div class="campo"><label>📖 Abertura</label><input id="respostaAbertura" autocomplete="off"></div>
+<div class="campo"><label>🏁 Final</label><input id="respostaFinal" autocomplete="off"></div>
+<div class="campo"><label>👑 Enxadrista histórico</label><input id="respostaEnxadrista" autocomplete="off"></div>
+</div>
+</section>
+
+<section class="card campeao" id="telaCampeao" style="display:none"></section>
+
+<section class="card">
+<h2>📋 Resultado da Rodada</h2>
+<div id="resultadoRodada">Aguardando respostas...</div>
+</section>
+
+<section class="card">
+<h2>🏅 Desempenho</h2>
+<div class="pontuacao" id="painelPontuacao">0 pontos</div>
+<div class="medalha" id="medalhaJogador">Nenhuma medalha</div>
+</section>
+
+<section class="card">
+<h2>🏆 Ranking da Turma</h2>
+<div class="ranking" id="rankingTurma">Nenhuma partida registrada.</div>
+</section>
+
+<section class="card">
+<div class="botoes">
+<button class="btn-professor" onclick="abrirPainelProfessor()">👨‍🏫 Painel do Professor</button>
+</div>
+<div id="painelProfessor">
+<h2>📊 Estatísticas da Turma</h2>
+<div class="estatisticas">
+<div class="estatistica-card"><h3 id="totalPartidas">0</h3><p>Partidas</p></div>
+<div class="estatistica-card"><h3 id="mediaTurma">0</h3><p>Média</p></div>
+<div class="estatistica-card"><h3 id="maiorPontuacao">0</h3><p>Maior Pontuação</p></div>
+<div class="estatistica-card"><h3 id="participantes">0</h3><p>Participantes</p></div>
+</div>
+<h2>📈 Desempenho real por Categoria</h2>
+<div id="estatisticasCategorias"></div>
+<div class="botoes">
+<button class="btn-exportar" onclick="exportarCSV()">📄 Exportar CSV</button>
+<button class="btn-exportar" onclick="exportarJSON()">💾 Exportar JSON</button>
+<button class="btn-finalizar" onclick="limparHistorico()">🗑 Limpar Histórico</button>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>📚 Sobre o Projeto</h2>
+<p>A Adedonha Enxadrista FEM V2.1 é um recurso educacional gamificado que utiliza correção automática, feedback pedagógico, ranking e painel do professor para fortalecer o aprendizado do xadrez escolar.</p>
+</section>
+</div>
+
+<script src="banco-termos.js"></script>
+<script src="app.js"></script>
 <script>
-let letras="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');let t=120,c;
-function iniciar(){document.getElementById('letra').innerText=letras[Math.floor(Math.random()*26)];
-clearInterval(c);t=120;c=setInterval(()=>{t--;document.getElementById('tempo').innerText=("0"+Math.floor(t/60)).slice(-2)+":"+("0"+t%60).slice(-2);},1000);}
-function finalizar(){document.getElementById('res').innerHTML="Atividade concluída!";}
-if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js');}
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+}
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='block';});
-installBtn.addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();}});
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'inline-block';
+});
+document.getElementById('installBtn')?.addEventListener('click', async ()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
 </script>
-</body></html>
+</body>
+</html>
