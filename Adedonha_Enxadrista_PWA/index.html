@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adedonha Enxadrista</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#222222">
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;padding:20px}
+.container{max-width:900px;margin:auto;background:#fff;padding:20px;border-radius:12px}
+.box{display:inline-block;background:#eee;padding:12px;margin:5px;border-radius:8px}
+input{width:95%;padding:8px}.btn{padding:10px;margin:5px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>♟️ Adedonha Enxadrista</h1>
+<div class="box">Letra: <span id="letra">?</span></div>
+<div class="box">Tempo: <span id="tempo">02:00</span></div>
+<br><button class="btn" onclick="iniciar()">Iniciar</button>
+<table border="1" width="100%">
+<tr><td>Peça</td><td><input id="peca"></td></tr>
+<tr><td>Movimento</td><td><input id="mov"></td></tr>
+<tr><td>Estratégia</td><td><input id="est"></td></tr>
+<tr><td>Enxadrista</td><td><input id="enj"></td></tr>
+</table>
+<button class="btn" onclick="finalizar()">Finalizar</button>
+<div id="res"></div>
+<button id="installBtn" style="display:none">Instalar App</button>
+</div>
+<script>
+let letras="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');let t=120,c;
+function iniciar(){document.getElementById('letra').innerText=letras[Math.floor(Math.random()*26)];
+clearInterval(c);t=120;c=setInterval(()=>{t--;document.getElementById('tempo').innerText=("0"+Math.floor(t/60)).slice(-2)+":"+("0"+t%60).slice(-2);},1000);}
+function finalizar(){document.getElementById('res').innerHTML="Atividade concluída!";}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js');}
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='block';});
+installBtn.addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();}});
+</script>
+</body></html>
