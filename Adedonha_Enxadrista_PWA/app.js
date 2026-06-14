@@ -11,9 +11,11 @@ function normalizarTexto(texto){
 }
 function getEl(id){ return document.getElementById(id); }
 function letrasDisponiveis(){
-  if(typeof obterLetrasValidasDoBanco === "function"){
-    const letras = obterLetrasValidasDoBanco();
-    if(letras.length) return letras;
+  return [
+    "A","B","C","D","E","F","G",
+    "H","I","L","M","N","O",
+    "P","R","S","T","V"
+  ];
   }
   return ["A","B","C","D","F","G","M","P","R","S","T"];
 }
