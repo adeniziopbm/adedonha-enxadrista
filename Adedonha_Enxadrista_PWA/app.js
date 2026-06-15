@@ -17,8 +17,6 @@ function letrasDisponiveis(){
     "P","R","S","T","V"
   ];
   }
-  return ["A","B","C","D","F","G","M","P","R","S","T"];
-}
 function gerarLetra(){
   const letras = letrasDisponiveis();
   return letras[Math.floor(Math.random()*letras.length)];
